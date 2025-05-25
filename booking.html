@@ -4,25 +4,239 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Appointment - Miles Unisex Salon</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .page-header {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.5) 100%), url('images/header-bg.jpg') center/cover;
+            height: 80vh;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .page-header h1,
+        .page-header p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .booking-section {
+            padding: 120px 2rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: url('images/h1_hero1.jpg') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+        }
+
+        .booking-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1;
+        }
+
+        .booking-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+
+        .service-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .service-option img {
+            width: 40px;
+            height: 40px;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .stylist-option {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+
+        .stylist-section {
+            font-weight: bold;
+            color: var(--primary-color);
+            padding: 8px;
+            background-color: #f8f9fa;
+            margin-top: 5px;
+        }
+
+        optgroup {
+            font-weight: bold;
+            color: var(--primary-color);
+            background-color: #f8f9fa;
+        }
+
+        optgroup option {
+            padding-left: 20px;
+            color: var(--text-color);
+            font-weight: normal;
+        }
+
+        .booking-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .booking-summary {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 10px;
+            position: sticky;
+            top: 100px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-header img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .selected-service-img,
+        .selected-stylist-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 1rem;
+        }
+
+        .summary-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .total-price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-top: 1rem;
+        }
+
+        @media screen and (max-width: 768px) {
+            .booking-container {
+                grid-template-columns: 1fr;
+            }
+
+            .booking-summary {
+                position: static;
+                margin-top: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Miles Salon</div>
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Miles Unisex Salon Logo">
+            <span>Miles Unisex Salon</span>
+        </a>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="services.html">Services</a></li>
             <li><a href="gallery.html">Gallery</a></li>
-            <li><a href="booking.html">Book Now</a></li>
+            <li><a href="booking.html" class="active">Book Now</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <div class="burger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
     </nav>
 
     <section class="page-header">
@@ -31,69 +245,112 @@
     </section>
 
     <section class="booking-section">
+        <div class="section-header">
+            <h2>Book Your Appointment</h2>
+            <p>Schedule your visit with our expert stylists</p>
+        </div>
         <div class="booking-container">
-            <form id="booking-form" class="booking-form">
-                <div class="form-group">
-                    <label for="service">Select Service</label>
-                    <select id="service" name="service" required>
-                        <option value="">Choose a service...</option>
-                        <option value="haircut">Haircut & Styling ($35)</option>
-                        <option value="coloring">Hair Coloring ($75)</option>
-                        <option value="facial">Facial Treatment ($55)</option>
-                        <option value="makeup">Professional Makeup ($65)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="stylist">Select Stylist</label>
-                    <select id="stylist" name="stylist" required>
-                        <option value="">Choose a stylist...</option>
-                        <option value="john">John Smith</option>
-                        <option value="sarah">Sarah Johnson</option>
-                        <option value="mike">Mike Wilson</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="date">Select Date</label>
-                    <input type="text" id="date" name="date" class="datepicker" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="time">Select Time</label>
-                    <select id="time" name="time" required>
-                        <option value="">Choose a time...</option>
-                        <!-- Time slots will be populated by JavaScript -->
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Your Name</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="email">Your Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="phone">Your Phone</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="notes">Special Notes</label>
-                    <textarea id="notes" name="notes" rows="3"></textarea>
-                </div>
-
-                <button type="submit" class="submit-btn">Book Appointment</button>
-            </form>
-
+            <div class="booking-form">
+                <form id="bookingForm" method="POST">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="service">Select Service</label>
+                        <select id="service" name="service_id" required>
+                            <option value="">Choose a service...</option>
+                            <option value="1" data-image="images/services1.svg">Haircut & Styling ($30)</option>
+                            <option value="2" data-image="images/services2.svg">Hair Coloring ($80)</option>
+                            <option value="3" data-image="images/services3.svg">Hair Treatment ($50)</option>
+                            <option value="4" data-image="images/services1.svg">Facial & Makeup ($60)</option>
+                            <option value="5" data-image="images/services2.svg">Nail Care ($40)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="stylist">Select Your Preferred Staff Member</label>
+                        <select id="stylist" name="stylist_id" required>
+                            <option value="">Choose a staff member...</option>
+                            <optgroup label="Barber Section">
+                                <option value="1" data-image="images/barber1.jpg">Julius - Master Barber</option>
+                                <option value="2" data-image="images/barber2.jpg">Simon - Senior Barber</option>
+                                <option value="3" data-image="images/barber3.jpg">Emma - Style Specialist</option>
+                                <option value="4" data-image="images/barber4.jpg">Rasta - Beard Expert</option>
+                            </optgroup>
+                            <optgroup label="Ladies Hair Section">
+                                <option value="5" data-image="images/barber5.jpg">Joy - Hair Stylist</option>
+                            </optgroup>
+                            <optgroup label="Nail Section">
+                                <option value="6" data-image="images/barber6.jpg">Michael - Nail Artist</option>
+                                <option value="7" data-image="images/barber1.jpg">Justine - Nail Care Specialist</option>
+                                <option value="8" data-image="images/barber2.jpg">Rony - Nail Designer</option>
+                                <option value="9" data-image="images/barber3.jpg">Angella - Nail Treatment Expert</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <input type="date" id="date" name="date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <select id="time" name="time" required>
+                            <option value="">Choose a time...</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                            <option value="18:00">6:00 PM</option>
+                            <option value="19:00">7:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Special Notes</label>
+                        <textarea id="notes" name="notes" rows="4"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Book Appointment</button>
+                </form>
+            </div>
             <div class="booking-summary">
-                <h3>Booking Summary</h3>
-                <div id="summary-details">
-                    <p>Please select your services and time</p>
+                <div class="summary-header">
+                    <img src="images/scissors.svg" alt="Booking">
+                    <h3>Booking Summary</h3>
+                </div>
+                <div id="summaryDetails">
+                    <div class="summary-item">
+                        <img id="selectedServiceImage" src="images/services1.svg" alt="Service" class="selected-service-img" style="display: none;">
+                        <div>
+                            <strong>Service:</strong>
+                            <span id="selectedService">Not selected</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <img id="selectedStylistImage" src="images/barber1.jpg" alt="Stylist" class="selected-stylist-img" style="display: none;">
+                        <div>
+                            <strong>Stylist:</strong>
+                            <span id="selectedStylist">Not selected</span>
+                        </div>
+                    </div>
+                    <div class="summary-item">
+                        <strong>Date & Time:</strong>
+                        <span id="selectedDateTime">Not selected</span>
+                    </div>
+                    <div class="total-price">
+                        Total: <span id="totalPrice">$0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -102,18 +359,28 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>Opening Hours</h3>
-                <p>Monday - Friday: 9am - 8pm</p>
-                <p>Saturday: 10am - 6pm</p>
-                <p>Sunday: Closed</p>
+                <img src="images/logo2_footer.png" alt="Miles Salon Logo" class="footer-logo">
+                <p>Your destination for professional hair and beauty services.</p>
+                <div class="social-links">
+                    <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
             </div>
             <div class="footer-section">
-                <h3>Follow Us</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Beauty Street, Your City</p>
+                <p><i class="fas fa-phone"></i> <a href="tel:+12345678900">+1 234 567 8900</a></p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:info@milessalon.com">info@milessalon.com</a></p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -122,7 +389,160 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="script.js"></script>
-    <script src="booking.js"></script>
+    <script src="js/script.js"></script>
+    <script>
+        // Initialize date picker
+        flatpickr("#date", {
+            minDate: "today",
+            disable: [
+                function(date) {
+                    // Disable Sundays
+                    return date.getDay() === 0;
+                }
+            ],
+            dateFormat: "Y-m-d",
+            onChange: function(selectedDates, dateStr) {
+                updateDateTime();
+            }
+        });
+
+        // Form handling
+        const bookingForm = document.getElementById('bookingForm');
+        const selectedService = document.getElementById('selectedService');
+        const selectedStylist = document.getElementById('selectedStylist');
+        const selectedDateTime = document.getElementById('selectedDateTime');
+        const totalPrice = document.getElementById('totalPrice');
+
+        // Update summary when service is selected
+        document.getElementById('service').addEventListener('change', function(e) {
+            const option = e.target.options[e.target.selectedIndex];
+            selectedService.textContent = option.text || 'Not selected';
+            const serviceImage = document.getElementById('selectedServiceImage');
+            if (option.value) {
+                serviceImage.src = option.dataset.image;
+                serviceImage.style.display = 'block';
+            } else {
+                serviceImage.style.display = 'none';
+            }
+            updatePrice();
+        });
+
+        // Update summary when stylist is selected
+        document.getElementById('stylist').addEventListener('change', function(e) {
+            const option = e.target.options[e.target.selectedIndex];
+            if (option.value) {
+                const section = option.parentElement.label;
+                selectedStylist.textContent = `${option.text} (${section})`;
+                const stylistImage = document.getElementById('selectedStylistImage');
+                stylistImage.src = option.dataset.image;
+                stylistImage.style.display = 'block';
+            } else {
+                selectedStylist.textContent = 'Not selected';
+                document.getElementById('selectedStylistImage').style.display = 'none';
+            }
+        });
+
+        // Update summary when time is selected
+        document.getElementById('time').addEventListener('change', function(e) {
+            updateDateTime();
+        });
+
+        // Function to update date and time in summary
+        function updateDateTime() {
+            const date = document.getElementById('date').value;
+            const time = document.getElementById('time').value;
+            if (date && time) {
+                const formattedDate = new Date(date).toLocaleDateString();
+                selectedDateTime.textContent = `${formattedDate} at ${time}`;
+            } else {
+                selectedDateTime.textContent = 'Not selected';
+            }
+        }
+
+        // Function to update price in summary
+        function updatePrice() {
+            const serviceSelect = document.getElementById('service');
+            const selectedOption = serviceSelect.options[serviceSelect.selectedIndex];
+            if (selectedOption && selectedOption.text) {
+                const priceMatch = selectedOption.text.match(/\$(\d+)/);
+                if (priceMatch) {
+                    totalPrice.textContent = `$${priceMatch[1]}`;
+                }
+            } else {
+                totalPrice.textContent = '$0';
+            }
+        }
+
+        // Form submission
+        bookingForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            try {
+                const formData = new FormData(bookingForm);
+                const data = {
+                    name: formData.get('name'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    service_id: parseInt(formData.get('service_id')),
+                    stylist_id: parseInt(formData.get('stylist_id')),
+                    date: formData.get('date'),
+                    time: formData.get('time'),
+                    notes: formData.get('notes') || ''
+                };
+                
+                // Validate required fields
+                const requiredFields = ['name', 'email', 'phone', 'service_id', 'stylist_id', 'date', 'time'];
+                const missingFields = requiredFields.filter(field => !data[field]);
+                if (missingFields.length > 0) {
+                    throw new Error(`Please fill in all required fields: ${missingFields.join(', ')}`);
+                }
+                
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    throw new Error('Please enter a valid email address');
+                }
+
+                // Basic phone validation
+                const phoneRegex = /^\+?[\d\s-]{10,}$/;
+                if (!phoneRegex.test(data.phone)) {
+                    throw new Error('Please enter a valid phone number');
+                }
+                
+                console.log('Submitting booking data:', data);
+                
+                const response = await fetch('/api/bookings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const responseData = await response.json();
+                console.log('Server response:', responseData);
+
+                if (!response.ok) {
+                    throw new Error(responseData.error || responseData.message || 'Booking failed');
+                }
+
+                if (!responseData.success) {
+                    throw new Error(responseData.error || responseData.message || 'Booking failed');
+                }
+
+                alert('Booking successful! We will confirm your appointment shortly.');
+                bookingForm.reset();
+                selectedService.textContent = 'Not selected';
+                selectedStylist.textContent = 'Not selected';
+                selectedDateTime.textContent = 'Not selected';
+                totalPrice.textContent = '$0';
+                document.getElementById('selectedServiceImage').style.display = 'none';
+                document.getElementById('selectedStylistImage').style.display = 'none';
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('Error: ' + (error.message || 'Could not submit booking. Please try again later.'));
+            }
+        });
+    </script>
 </body>
-</html> 
+</html>

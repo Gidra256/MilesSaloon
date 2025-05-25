@@ -4,108 +4,414 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gallery - Miles Unisex Salon</title>
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/css/lightbox.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.95);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: #333;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 50px;
+            width: auto;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            color: #333;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #ff4d4d;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.5) 100%), url('images/header-bg.jpg') center/cover;
+            height: 80vh;
+            color: white;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 20px;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+
+        .page-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.3) 0%, transparent 100%);
+            z-index: 1;
+        }
+
+        .page-header h1,
+        .page-header p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 800px;
+        }
+
+        .gallery {
+            padding: 80px 20px;
+        }
+
+        .gallery-categories {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            border: none;
+            background: #f5f5f5;
+            color: #333;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .category-btn:hover,
+        .category-btn.active {
+            background: #ff4d4d;
+            color: white;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 10px;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item.hidden {
+            opacity: 0;
+            display: none;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            padding: 60px 20px 20px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 20px;
+        }
+
+        .footer-section p {
+            margin-bottom: 10px;
+            color: #ccc;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #ff4d4d;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            margin-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
-        <div class="logo">Miles Salon</div>
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="Miles Unisex Salon Logo">
+            <span>Miles Unisex Salon</span>
+        </a>
+        <div class="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="services.html">Services</a></li>
-            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="gallery.html" class="active">Gallery</a></li>
             <li><a href="booking.html">Book Now</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        <div class="burger">
-            <div class="line1"></div>
-            <div class="line2"></div>
-            <div class="line3"></div>
-        </div>
     </nav>
 
-    <section class="page-header">
+    <header class="page-header">
         <h1>Our Gallery</h1>
-        <p>Browse through our latest styles and transformations</p>
-    </section>
+        <p>Browse through our latest work and styles</p>
+    </header>
 
-    <section class="gallery-section">
-        <div class="gallery-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="haircuts">Haircuts</button>
-            <button class="filter-btn" data-filter="coloring">Coloring</button>
-            <button class="filter-btn" data-filter="styling">Styling</button>
-            <button class="filter-btn" data-filter="makeup">Makeup</button>
+    <section class="gallery">
+        <div class="gallery-categories">
+            <button class="category-btn active" data-category="all">All</button>
+            <button class="category-btn" data-category="haircuts">Haircuts</button>
+            <button class="category-btn" data-category="coloring">Coloring</button>
+            <button class="category-btn" data-category="styling">Styling</button>
+            <button class="category-btn" data-category="treatments">Treatments</button>
         </div>
 
         <div class="gallery-grid">
-            <a href="https://images.unsplash.com/photo-1560066984-138dadb4c035" 
-               data-lightbox="salon-gallery" 
-               data-title="Professional Haircut"
-               class="gallery-item haircuts">
-                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?w=400" alt="Haircut">
-                <div class="gallery-overlay">
-                    <span>Professional Haircut</span>
-                </div>
-            </a>
-
-            <a href="https://images.unsplash.com/photo-1562322140-8baeececf3df" 
-               data-lightbox="salon-gallery" 
-               data-title="Hair Coloring"
-               class="gallery-item coloring">
-                <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?w=400" alt="Hair Coloring">
-                <div class="gallery-overlay">
-                    <span>Hair Coloring</span>
-                </div>
-            </a>
-
-            <a href="https://images.unsplash.com/photo-1605497788044-5a32c7078486" 
-               data-lightbox="salon-gallery" 
-               data-title="Styling"
-               class="gallery-item styling">
-                <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=400" alt="Styling">
-                <div class="gallery-overlay">
-                    <span>Styling</span>
-                </div>
-            </a>
-
-            <a href="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2" 
-               data-lightbox="salon-gallery" 
-               data-title="Makeup"
-               class="gallery-item makeup">
-                <img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400" alt="Makeup">
-                <div class="gallery-overlay">
-                    <span>Makeup</span>
-                </div>
-            </a>
+            <div class="gallery-item" data-category="haircuts">
+                <a href="images/barber1.jpg" data-lightbox="gallery" data-title="Modern Cut - Professional styling">
+                    <img src="images/barber1.jpg" alt="Haircut Style 1">
+                    <div class="gallery-overlay">
+                        <h3>Modern Cut</h3>
+                        <p>Professional styling</p>
+                    </div>
+                </a>
+            </div>
+            <div class="gallery-item" data-category="coloring">
+                <a href="images/barber2.jpg" data-lightbox="gallery" data-title="Vibrant Colors - Creative coloring">
+                    <img src="images/barber2.jpg" alt="Hair Color 1">
+                    <div class="gallery-overlay">
+                        <h3>Vibrant Colors</h3>
+                        <p>Creative coloring</p>
+                    </div>
+                </a>
+            </div>
+            <div class="gallery-item" data-category="styling">
+                <a href="images/barber3.jpg" data-lightbox="gallery" data-title="Elegant Style - Special occasion">
+                    <img src="images/barber3.jpg" alt="Hair Styling 1">
+                    <div class="gallery-overlay">
+                        <h3>Elegant Style</h3>
+                        <p>Special occasion</p>
+                    </div>
+                </a>
+            </div>
+            <div class="gallery-item" data-category="treatments">
+                <a href="images/barber4.jpg" data-lightbox="gallery" data-title="Hair Treatment - Revitalizing care">
+                    <img src="images/barber4.jpg" alt="Hair Treatment 1">
+                    <div class="gallery-overlay">
+                        <h3>Hair Treatment</h3>
+                        <p>Revitalizing care</p>
+                    </div>
+                </a>
+            </div>
+            <div class="gallery-item" data-category="haircuts">
+                <a href="images/barber5.jpg" data-lightbox="gallery" data-title="Classic Cut - Timeless style">
+                    <img src="images/barber5.jpg" alt="Haircut Style 2">
+                    <div class="gallery-overlay">
+                        <h3>Classic Cut</h3>
+                        <p>Timeless style</p>
+                    </div>
+                </a>
+            </div>
+            <div class="gallery-item" data-category="coloring">
+                <a href="images/barber6.jpg" data-lightbox="gallery" data-title="Highlights - Natural look">
+                    <img src="images/barber6.jpg" alt="Hair Color 2">
+                    <div class="gallery-overlay">
+                        <h3>Highlights</h3>
+                        <p>Natural look</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
-    <footer>
-        <div class="footer-content">
+    <footer class="footer">
+        <div class="footer-container">
             <div class="footer-section">
-                <h3>Opening Hours</h3>
-                <p>Monday - Friday: 9am - 8pm</p>
-                <p>Saturday: 10am - 6pm</p>
-                <p>Sunday: Closed</p>
-            </div>
-            <div class="footer-section">
-                <h3>Follow Us</h3>
+                <h3>Miles Unisex Salon</h3>
+                <p>Your destination for professional hair and beauty services.</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                 </div>
             </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <p><a href="index.html">Home</a></p>
+                <p><a href="services.html">Services</a></p>
+                <p><a href="gallery.html">Gallery</a></p>
+                <p><a href="booking.html">Book Now</a></p>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <p>Arena Mall, Plot 3-5</p>
+                <p>Nsambya Road, Kampala</p>
+                <p>+1 (234) 567-8900</p>
+                <p>info@milessalon.com</p>
+            </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Miles Unisex Salon. All rights reserved.</p>
+            <p>&copy; 2024 Miles Salon. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.3/dist/js/lightbox.min.js"></script>
-    <script src="script.js"></script>
-    <script src="gallery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    <script>
+        // Gallery filtering
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+
+                    const category = button.getAttribute('data-category');
+                    galleryItems.forEach(item => {
+                        if (category === 'all' || item.getAttribute('data-category') === category) {
+                            item.classList.remove('hidden');
+                        } else {
+                            item.classList.add('hidden');
+                        }
+                    });
+                });
+            });
+
+            // Initialize lightbox
+            lightbox.option({
+                'resizeDuration': 200,
+                'wrapAround': true,
+                'albumLabel': 'Image %1 of %2',
+                'fadeDuration': 300
+            });
+        });
+    </script>
 </body>
 </html> 
